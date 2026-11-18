@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Part of Quoralo. See LICENSE file for full copyright and licensing details. -->
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.website.quoralo</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="website.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='website_info_settings']" position="inside">
+                <setting id="quoralo_setting"
+                         string="Quoralo AI chat agent"
+                         help="Show your Quoralo agent's chat bubble on every page of this website. Paste the agent ID, its chat link or the script tag from the Quoralo dashboard (Partager > Widget pour votre site). Leave empty to hide the bubble.">
+                    <field name="quoralo_agent_id" placeholder="my-agent"/>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>
