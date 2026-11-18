@@ -1,0 +1,64 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* website_quoralo
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: Quoralo <contact@quoralo.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: website_quoralo
+#: model:ir.model.fields,field_description:website_quoralo.field_res_config_settings__quoralo_agent_id
+#: model:ir.model.fields,field_description:website_quoralo.field_website__quoralo_agent_id
+msgid "Quoralo Agent"
+msgstr "Agent Quoralo"
+
+#. module: website_quoralo
+#: model:ir.model.fields,help:website_quoralo.field_res_config_settings__quoralo_agent_id
+#: model:ir.model.fields,help:website_quoralo.field_website__quoralo_agent_id
+msgid ""
+"The ID of your Quoralo agent. You can also paste its chat link or the script "
+"tag from the Quoralo dashboard (Partager > Widget pour votre site)."
+msgstr ""
+"L'identifiant de votre agent Quoralo. Vous pouvez aussi coller son lien de "
+"chat ou la balise script du tableau de bord Quoralo (Partager > Widget pour "
+"votre site)."
+
+#. module: website_quoralo
+#: model_terms:ir.ui.view,arch_db:website_quoralo.res_config_settings_view_form
+msgid "Quoralo AI chat agent"
+msgstr "Agent de chat IA Quoralo"
+
+#. module: website_quoralo
+#: model_terms:ir.ui.view,arch_db:website_quoralo.res_config_settings_view_form
+msgid ""
+"Show your Quoralo agent's chat bubble on every page of this website. Paste "
+"the agent ID, its chat link or the script tag from the Quoralo dashboard "
+"(Partager > Widget pour votre site). Leave empty to hide the bubble."
+msgstr ""
+"Affiche la bulle de chat de votre agent Quoralo sur toutes les pages de ce "
+"site. Collez l'identifiant de l'agent, son lien de chat ou la balise script "
+"du tableau de bord Quoralo (Partager > Widget pour votre site). Laissez vide "
+"pour masquer la bulle."
+
+#. module: website_quoralo
+#: model_terms:ir.ui.view,arch_db:website_quoralo.res_config_settings_view_form
+msgid "my-agent"
+msgstr "mon-agent"
+
+#. module: website_quoralo
+#. odoo-python
+#: code:addons/website_quoralo/models/website.py:0
+msgid ""
+"This is not a valid Quoralo agent. Paste the agent ID, its chat link or the "
+"script tag from the Quoralo dashboard (Partager > Widget pour votre site)."
+msgstr ""
+"Ce n'est pas un agent Quoralo valide. Collez l'identifiant de l'agent, son "
+"lien de chat ou la balise script du tableau de bord Quoralo (Partager > "
+"Widget pour votre site)."
