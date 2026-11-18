@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Part of Quoralo. See LICENSE file for full copyright and licensing details. -->
+<odoo>
+    <!-- The chat bubble, at the end of <body>, on every public page of the
+         website. Not shown while the page is being edited or translated. -->
+    <template id="quoralo_widget" name="Quoralo Chat Widget" inherit_id="website.layout" priority="60">
+        <xpath expr="//body" position="inside">
+            <t t-if="website and website.quoralo_agent_id and not editable and not translatable"
+               t-out="website._quoralo_widget_html()"/>
+        </xpath>
+    </template>
+</odoo>
