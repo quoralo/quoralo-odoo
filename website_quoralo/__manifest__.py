@@ -3,7 +3,7 @@
     "name": "Quoralo AI Chat Agent",
     "summary": "Add the Quoralo AI chat agent to your website: it answers "
                "your visitors 24/7 from the information you gave it.",
-    "version": "18.0.1.0.0",
+    "version": "19.0.1.0.0",
     "category": "Website/Website",
     "author": "Quoralo",
     "website": "https://www.quoralo.com",
