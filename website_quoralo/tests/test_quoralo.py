@@ -4,6 +4,14 @@ from odoo.tests import HttpCase, TransactionCase, tagged
 
 from odoo.addons.website_quoralo.models.website import extract_agent_id
 
+
+def default_website(env):
+    """The website a request on localhost is served by (no xmlid in Odoo 20)."""
+    website = env["website"].search([], limit=1)
+    assert website, "no website in the database"
+    return website
+
+
 SCRIPT_TAG = (
     '<script data-agent-ia src="https://www.quoralo.com/api/widget/my-agent" '
     "async></script>"
@@ -28,19 +36,19 @@ class TestQuoraloAgentId(TransactionCase):
         self.assertIsNone(extract_agent_id("a" * 81))
 
     def test_website_field_is_normalized(self):
-        website = self.env.ref("website.default_website")
+        website = default_website(self.env)
         website.quoralo_agent_id = SCRIPT_TAG
         self.assertEqual(website.quoralo_agent_id, "my-agent")
         website.quoralo_agent_id = ""
         self.assertFalse(website.quoralo_agent_id)
 
     def test_invalid_value_is_refused(self):
-        website = self.env.ref("website.default_website")
+        website = default_website(self.env)
         with self.assertRaises(ValidationError):
             website.quoralo_agent_id = "<script>alert(1)</script>"
 
     def test_settings_write_through(self):
-        website = self.env.ref("website.default_website")
+        website = default_website(self.env)
         settings = self.env["res.config.settings"].create({
             "website_id": website.id,
             "quoralo_agent_id": "https://www.quoralo.com/c/my-agent",
@@ -49,7 +57,7 @@ class TestQuoraloAgentId(TransactionCase):
         self.assertEqual(website.quoralo_agent_id, "my-agent")
 
     def test_widget_html(self):
-        website = self.env.ref("website.default_website")
+        website = default_website(self.env)
         website.quoralo_agent_id = "my-agent"
         html = str(website._quoralo_widget_html())
         self.assertIn('src="https://www.quoralo.com/api/widget/my-agent"', html)
@@ -63,14 +71,14 @@ class TestQuoraloAgentId(TransactionCase):
 class TestQuoraloWidgetOnPages(HttpCase):
 
     def test_no_bubble_without_agent(self):
-        self.env.ref("website.default_website").quoralo_agent_id = False
+        default_website(self.env).quoralo_agent_id = False
         # A distinct query string in each test avoids any cached copy of the page.
         response = self.url_open("/?quoralo_test=without")
         self.assertEqual(response.status_code, 200)
         self.assertNotIn("data-agent-ia", response.text)
 
     def test_bubble_on_public_pages(self):
-        self.env.ref("website.default_website").quoralo_agent_id = "my-agent"
+        default_website(self.env).quoralo_agent_id = "my-agent"
         response = self.url_open("/?quoralo_test=with")
         self.assertEqual(response.status_code, 200)
         self.assertIn("https://www.quoralo.com/api/widget/my-agent", response.text)
