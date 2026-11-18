@@ -1,0 +1,52 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  odoo:
+    # Only the version branches are tested (18.0, 19.0, 20.0).
+    if: ${{ contains(fromJSON('["18.0", "19.0", "20.0"]'), github.base_ref || github.ref_name) }}
+    runs-on: ubuntu-latest
+    # The branch name is the Odoo version: 18.0, 19.0 or 20.0.
+    container:
+      image: odoo:${{ github.base_ref || github.ref_name }}
+      options: --user root
+    services:
+      db:
+        image: postgres:16
+        env:
+          POSTGRES_USER: odoo
+          POSTGRES_PASSWORD: odoo
+          POSTGRES_DB: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install website_quoralo and run its tests
+        shell: bash
+        run: |
+          set -o pipefail
+          odoo --version
+          odoo \
+            --addons-path=/usr/lib/python3/dist-packages/odoo/addons,"$GITHUB_WORKSPACE" \
+            --db_host=db --db_user=odoo --db_password=odoo \
+            -d quoralo_test -i website_quoralo \
+            --test-enable --test-tags=/website_quoralo \
+            --stop-after-init --log-level=test 2>&1 | tee odoo.log
+
+      - name: Check the result
+        shell: bash
+        run: |
+          if grep -E "( ERROR | CRITICAL |Traceback)" odoo.log; then
+            echo "::error::Errors in the Odoo log"
+            exit 1
+          fi
+          # The module's tests must have run, with no failure and no error.
+          grep -E "0 failed, 0 error\(s\) of [1-9][0-9]* tests" odoo.log
